@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <!-- กำหนด charset ของหน้าเว็บเป็น UTF-8 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- ทำให้ responsive กับหน้าจอมือถือ -->
+  <title>ตารางการใช้ห้อง - มหาวิทยาลัยแม่โจ้</title>
+  <!-- ชื่อหัวข้อที่แสดงในแท็บบราวเซอร์ -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Noto+Sans+Thai:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
+    /* กำหนดรูปแบบตัวหนังสือ สีพื้นหลัง และสีตัวอักษรหลักของหน้าเว็บ */
+    body {
+      margin: 0; /* ลบ margin รอบนอกทั้งหมด */
+      font-family: "Noto Sans Thai", sans-serif; /* ฟอนต์หลัก */
+      background: #e9eaef; /* สีพื้นหลังหน้าเว็บ */
+      color: #1c2942; /* สีตัวหนังสือหลัก */
+    }
+
+    /* ส่วน main สำหรับเนื้อหาและฟอร์ม */
+    main {
+      max-width: 800px; /* กำหนดความกว้างสูงสุด */
+      margin: 4rem auto; /* เว้นระยะด้านบน-ล่างและกึ่งกลางซ้าย-ขวา */
+      background: #faf9f9; /* พื้นหลังกล่องเนื้อหา */
+      padding: 1.5rem 2rem 2rem 2rem; /* ระยะขอบภายในกล่อง (บน ซ้าย ขวา ล่าง) */
+      border-radius: 8px; /* มุมโค้งของกล่อง */
+      box-shadow: 0 1px 10px rgba(0,0,0,0.1); /* เงาบางๆ รอบกล่อง */
+    }
+
+    /* หัวข้อหลัก (h1) */
+    main h1 {
+      text-align: center; /* จัดข้อความกึ่งกลาง */
+      margin-bottom: 1.2rem; /* เว้นช่องว่างด้านล่างหัวข้อ */
+      color: #e0a250; /* สีตัวหนังสือหัวข้อ */
+    }
+
+    /* label ป้ายชื่อฟิลด์ในฟอร์ม */
+    label {
+      display: block; /* เป็นบล็อกใหม่ */
+      margin-top: 1.2rem; /* ช่องว่างด้านบน */
+      font-weight: 600; /* ตัวหนา */
+    }
+
+    /* ช่องกรอกข้อมูลแบบ select และ date ครอบคลุมให้เท่ากันทุกช่อง */
+    select, input[type="date"] {
+      box-sizing: border-box; /* ขนาดรวม padding และ border */
+      width: 100%; /* เต็มความกว้าง */
+      max-width: 100%; /* ไม่ให้เกิน container */
+      padding: 0.5rem; /* ระยะในช่อง */
+      margin-top: 0.35rem; /* ช่องว่างด้านบน */
+      border: 1.5px solid #481f1f; /* สีขอบ */
+      border-radius: 6px; /* มุมโค้งเล็กน้อย */
+      font-size: 1rem; /* ขนาดฟอนต์ */
+      height: 38px; /* ความสูงเท่ากันทุกช่อง */
+      transition: border-color 0.3s ease; /* animation เปลี่ยนสีขอบเมื่อ focus */
+    }
+
+    /* สีขอบเมื่อ focus */
+    select:focus, input[type="date"]:focus {
+      border-color: #64cf12; /* สีขอบเมื่อเลือก */
+      outline: none; /* เอา outline ออก */
+    }
+
+    /* กล่องปุ่มล่าง */
+    .buttons {
+      margin-top: 2rem; /* ช่องว่างด้านบน */
+      text-align: center; /* จัดกึ่งกลาง */
+    }
+
+    /* ปุ่มทั่วไป */
+    button {
+      cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็น pointer */
+      font-weight: 600; /* ตัวหนา */
+      font-size: 1rem; /* ขนาดตัวอักษร */
+      padding: 0.6rem 1.4rem; /* ระยะขอบด้านใน */
+      border: none; /* เอาขอบออก */
+      border-radius: 5px; /* มุมโค้ง */
+      margin: 0 0.5rem; /* ระยะขอบซ้าย-ขวา */
+      transition: background-color 0.3s ease; /* เอฟเฟกต์เปลี่ยนสี */
+      color: white; /* สีตัวหนังสือปุ่ม */
+      background-color: #007bff; /* สีพื้นหลังปกติ */
+    }
+
+    /* สีปุ่มเมื่อ hover */
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* ปุ่มล้างข้อมูล */
+    button.reset {
+      background-color: #515865; /* สีปุ่ม */
+    }
+
+    /* สีปุ่มล้างข้อมูลเมื่อ hover */
+    button.reset:hover {
+      background-color: #a12121;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- แถบ header ด้านบน -->
+ <header class="bg-gradient-to-r from-teal-500 to-teal-700 px-4 py-4">
+        <!-- ส่วนบน: โลโก้ + ชื่อมหาวิทยาลัย -->
+        <div class="flex-col md:flex-row md:items-center md:justify-between">
+            <!-- โลโก้และชื่อ -->
+            <div class="flex items-center justify-center md:justify-start mb-4 md:mb-0">
+                <img src="/image/LOGOmju.png" alt="mju logo" class="w-[70px] h-[70px] mr-4" />
+                <div>
+                    <h1 class="text-white text-xl md:text-2xl tracking-widest font-medium">
+                        มหาวิทยาลัยแม่โจ้
+                    </h1>
+                    <h2 class="text-white text-lg md:text-xl tracking-widest font-medium">
+                        MAEJO UNIVERSITY
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- เมนู: แนวนอนบน desktop, แนวตั้งบนมือถือ -->
+        <nav>
+            <ul
+                class="flex flex-col md:flex-row text-white text-base md:text-xl space-y-2 md:space-y-0 md:space-x-6 mt-4 md:mt-6 text-center md:text-left">
+                <li>
+                    <a href="/html/main.html"
+                        class="hover:text-yellow-300 transition-colors duration-200">หน้าแรก</a>
+                </li>
+                <li>
+                    <a href="/html/calendar.html"
+                        class="hover:text-yellow-300 transition-colors duration-200">ปฏิทินการศึกษา</a>
+                </li>
+                <li>
+                    <a href="/html/schedule.html"
+                        class="hover:text-yellow-300 transition-colors duration-200">ตารางเรียน</a>
+                </li>
+                <li>
+                    <a href="/html/Reserve_room.html"
+                        class="hover:text-yellow-300 transition-colors duration-200">ตารางการใช้ห้อง</a>
+                </li>
+                <li>
+                    <a href="/index.html"
+                        class="hover:text-yellow-300 transition-colors duration-200">ออกจากระบบ</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+  <!-- ส่วนเนื้อหา main -->
+  <main>
+    <!-- หัวข้อหลัก -->
+    <h1>ตารางการใช้ห้อง</h1>
+
+    <!-- ฟอร์มค้นหาข้อมูล -->
+    <form id="searchForm" action="#" method="get">
+
+      <!-- เลือกอาคาร -->
+      <label for="building">อาคาร</label>
+      <select id="building" name="building">
+        <option value="" selected>โปรดเลือกตัวเลือก</option>
+        <option value="all">ทั้งหมด</option>
+        <option value="building1">อาคารเรียน 80 ปี แม่โจ้</option>
+        <option value="building2">คณะวิทยาศาสตร์</option>
+        <option value="building3">อาคารจุฬาภรณ์ คณะวิทยาศาสตร์</option>
+      </select>
+
+      <!-- เลือกห้อง -->
+      <label for="room">ห้อง</label>
+      <select id="room" name="room">
+        <option value="all" selected>ทั้งหมด</option>
+        <option value="room101">101</option>
+        <option value="room102">321</option>
+        <option value="room201">213</option>
+      </select>
+
+      <!-- เลือกความจุของห้อง -->
+      <label for="capacity">ความจุของห้อง</label>
+      <select id="capacity" name="capacity">
+        <option value="all" selected>ทั้งหมด</option>
+        <option value="10">น้อยกว่า 10 คน</option>
+        <option value="30">10-30 คน</option>
+        <option value="50">30-50 คน</option>
+        <option value="100">มากกว่า 50 คน</option>
+      </select>
+
+      <!-- เลือกประเภทของห้อง -->
+      <label for="roomType">ประเภทของห้อง</label>
+      <select id="roomType" name="roomType">
+        <option value="all" selected>ทั้งหมด</option>
+        <option value="classroom">ห้องเรียน</option>
+        <option value="lab">ห้องปฏิบัติการ</option>
+        <option value="meeting">ห้องประชุม</option>
+      </select>
+
+      <!-- เลือกวันที่ -->
+      <label for="date">ค้นหาตามวันที่</label>
+      <input type="date" id="date" name="date" />
+
+      <!-- ปุ่มกด ล้าง และ ค้นหา -->
+      <div class="buttons">
+        <button type="reset" class="reset">ล้างเงื่อนไข</button>
+        <button type="submit">ค้นหา</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

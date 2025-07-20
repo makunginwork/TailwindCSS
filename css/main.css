@@ -1,0 +1,16 @@
+/* กำหนดให้ html และ body สูงเต็มหน้าจอ */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* ความสูงขั้นต่ำเต็มหน้าจอ */
+}
+
+/* กำหนดให้ main ขยายเต็มพื้นที่ที่เหลือ */
+.main-container {
+  flex: 1;
+}
